@@ -1,0 +1,31 @@
+Owner = "login"
+RepositoryName = "arepository"
+GitHubToken = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+[[Rules]]
+  IncludedLabels = ["label01", "label02"]
+  ExcludedLabels = ["label03"]
+  Message = """\
+I'll close the issue due to inactivity but feel free to re-open if needed.
+  """
+  DaysSinceCreation = 360
+  DaysSinceUpdate = 180
+
+[[Rules]]
+  IncludedLabels = ["label04"]
+  ExcludedLabels = []
+  Message = """\
+I'll close the issue due to inactivity but feel free to re-open if needed.
+  """
+  DaysSinceCreation = 90
+  DaysSinceUpdate = 90
+
+[[Rules]]
+  Disable = true
+  IncludedLabels = ["label05"]
+  ExcludedLabels = []
+  Message = """\
+I'll close the issue due to inactivity but feel free to re-open if needed.
+  """
+  DaysSinceCreation = 90
+  DaysSinceUpdate = 90
