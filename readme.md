@@ -1,5 +1,7 @@
 # Myrmica Bibikoffi - Closes stale issues
 
+[![Build Status](https://travis-ci.org/containous/bibikoffi.svg?branch=master)](https://travis-ci.org/containous/bibikoffi)
+
 ```shell
 bibikoffi, Closes stale issues.
 
