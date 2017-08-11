@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/containous/myrmica-bibikoffi/search"
-	"github.com/containous/myrmica-bibikoffi/types"
+	"github.com/containous/bibikoffi/search"
+	"github.com/containous/bibikoffi/types"
 	"github.com/google/go-github/github"
 )
 

@@ -6,9 +6,9 @@ import (
 	"os"
 
 	"github.com/BurntSushi/toml"
+	"github.com/containous/bibikoffi/mjolnir"
+	"github.com/containous/bibikoffi/types"
 	"github.com/containous/flaeg"
-	"github.com/containous/myrmica-bibikoffi/mjolnir"
-	"github.com/containous/myrmica-bibikoffi/types"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 )
@@ -31,6 +31,7 @@ func main() {
 			if options.Debug {
 				log.Printf("Run bibikoffi command with config : %+v\n", options)
 			}
+			required(options.ConfigFilePath, "config-path")
 
 			if options.DryRun {
 				log.Print("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
@@ -80,4 +81,11 @@ func NewGitHubClient(ctx context.Context, token string) *github.Client {
 		client = github.NewClient(tc)
 	}
 	return client
+}
+
+func required(field string, fieldName string) error {
+	if len(field) == 0 {
+		log.Fatalf("%s is mandatory.", fieldName)
+	}
+	return nil
 }

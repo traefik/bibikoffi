@@ -11,4 +11,4 @@ build:
 	go build -o bibikoffi
 
 test-unit:
-	go test -v  $(GOLIST)
+	go test -v $(GOLIST)
