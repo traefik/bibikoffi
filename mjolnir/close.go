@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/containous/bibikoffi/search"
+	"github.com/containous/bibikoffi/internal/search"
 	"github.com/containous/bibikoffi/types"
 	"github.com/google/go-github/github"
 )
@@ -41,10 +41,11 @@ func closeIssuesByRule(ctx context.Context, client *github.Client, owner string,
 
 		if debug {
 			log.Println(issue.GetTitle())
-			log.Println(rule.Message)
 		}
 
-		if !dryRun {
+		if dryRun {
+			log.Println(rule.Message)
+		} else {
 			err = closeIssue(ctx, client, owner, repositoryName, issue.GetNumber(), rule.Message)
 			if err != nil {
 				return err

@@ -4,7 +4,6 @@ package types
 type Configuration struct {
 	Owner          string
 	RepositoryName string
-	GitHubToken    string
 	Rules          []Rule
 }
 
@@ -20,6 +19,7 @@ type Rule struct {
 
 // Options CLI options
 type Options struct {
+	GitHubToken    string `long:"token" short:"t" description:"GitHub Token. [required]"`
 	DryRun         bool   `long:"dry-run" description:"Dry run mode."`
 	Debug          bool   `long:"debug" description:"Debug mode."`
 	ConfigFilePath string `long:"config-path" description:"Configuration file path."`

@@ -1,14 +1,17 @@
 Owner = "login"
 RepositoryName = "arepository"
-GitHubToken = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 [[Rules]]
+  # search issues with those labels (AND)
   IncludedLabels = ["label01", "label02"]
+  # exclude issues with those labels (AND)
   ExcludedLabels = ["label03"]
   Message = """\
 I'll close the issue due to inactivity but feel free to re-open if needed.
   """
+  # number of days since the issue creation
   DaysSinceCreation = 360
+  # number of days since the last issue update
   DaysSinceUpdate = 180
 
 [[Rules]]
@@ -21,6 +24,7 @@ I'll close the issue due to inactivity but feel free to re-open if needed.
   DaysSinceUpdate = 90
 
 [[Rules]]
+  # Disable a rule
   Disable = true
   IncludedLabels = ["label05"]
   ExcludedLabels = []
