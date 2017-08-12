@@ -17,7 +17,7 @@ func TestIntegrationBibikoffi(t *testing.T) {
 	ctx := context.Background()
 
 	config := &types.Configuration{}
-	_, err := toml.DecodeFile(fixturePath("bibikoffi.toml"), config)
+	_, err := toml.DecodeFile(fixturePath("test01.toml"), config)
 	if err != nil {
 		t.Fatal(err)
 	}

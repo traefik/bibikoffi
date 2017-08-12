@@ -1,0 +1,32 @@
+Owner = "containous"
+RepositoryName = "traefik"
+
+[[Rules]]
+  IncludedLabels = ["kind/question"]
+  ExcludedLabels = []
+  Message = """\
+I'll close the issue due to inactivity but feel free to re-open if needed.\
+  """
+  DaysSinceCreation = 90
+  DaysSinceUpdate = 90
+
+[[Rules]]
+  IncludedLabels = ["kind/enhancement", "priority/P3"]
+  ExcludedLabels = []
+  Message = """\
+I'll close the issue due to inactivity but feel free to re-open if needed.\
+  """
+  DaysSinceCreation = 360
+  DaysSinceUpdate = 180
+
+[[Rules]]
+  Disable = true
+  IncludedLabels = ["area/cluster"]
+  ExcludedLabels = []
+  Message = """\
+I'll close the issue because we release a new cluster mode.
+
+Please try the new release.\
+  """
+  DaysSinceCreation = 1
+  DaysSinceUpdate = 1
