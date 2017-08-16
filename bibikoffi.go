@@ -30,8 +30,13 @@ func main() {
 			if options.Debug {
 				log.Printf("Run bibikoffi command with config : %+v\n", options)
 			}
-			required(options.ConfigFilePath, "config-path")
+
+			if len(options.GitHubToken) == 0 {
+				options.GitHubToken = os.Getenv("GITHUB_TOKEN")
+			}
+
 			required(options.GitHubToken, "token")
+			required(options.ConfigFilePath, "config-path")
 
 			if options.DryRun {
 				log.Print("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
