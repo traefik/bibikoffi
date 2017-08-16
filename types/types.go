@@ -23,4 +23,6 @@ type Options struct {
 	DryRun         bool   `long:"dry-run" description:"Dry run mode."`
 	Debug          bool   `long:"debug" description:"Debug mode."`
 	ConfigFilePath string `long:"config-path" description:"Configuration file path."`
+	ServerMode     bool   `long:"server" description:"Server mode."`
+	ServerPort     int    `long:"port" description:"Server port."`
 }

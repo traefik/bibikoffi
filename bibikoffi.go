@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/BurntSushi/toml"
 	"github.com/containous/bibikoffi/internal/gh"
@@ -55,6 +58,15 @@ func main() {
 }
 
 func process(options *types.Options) error {
+	if options.ServerMode {
+		server := &server{options: options}
+		return server.ListenAndServe()
+	}
+
+	return launch(options)
+}
+
+func launch(options *types.Options) error {
 
 	config := &types.Configuration{}
 	meta, err := toml.DecodeFile(options.ConfigFilePath, config)
@@ -78,4 +90,29 @@ func required(field string, fieldName string) error {
 		log.Fatalf("%s is mandatory.", fieldName)
 	}
 	return nil
+}
+
+type server struct {
+	options *types.Options
+}
+
+func (s *server) ListenAndServe() error {
+	return http.ListenAndServe(":"+strconv.Itoa(s.options.ServerPort), s)
+}
+
+func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		log.Printf("Invalid http method: %s", r.Method)
+		http.Error(w, "405 Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	err := launch(s.options)
+	if err != nil {
+		log.Printf("Report error: %v", err)
+		http.Error(w, "Report error.", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprint(w, "Scheluded.")
 }
