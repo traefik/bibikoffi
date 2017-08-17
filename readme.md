@@ -1,6 +1,8 @@
 # Myrmica Bibikoffi - Closes stale issues
 
 [![Build Status](https://travis-ci.org/containous/bibikoffi.svg?branch=master)](https://travis-ci.org/containous/bibikoffi)
+[![Docker Build Status](https://img.shields.io/docker/build/containous/bibikoffi.svg)](https://hub.docker.com/r/containous/bibikoffi/builds/)
+
 
 ```shell
 Myrmica Bibikoffi: Closes stale issues.
