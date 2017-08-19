@@ -17,6 +17,7 @@ func (a byUpdated) Less(i, j int) bool {
 	return a[i].GetUpdatedAt().Before(a[j].GetUpdatedAt())
 }
 
+// FindStaleIssues find stale issues.
 func FindStaleIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, parameters ...Parameter) ([]github.Issue, error) {
 
 	var filter string
@@ -51,9 +52,7 @@ func findIssues(ctx context.Context, client *github.Client, query string, search
 		if err != nil {
 			return nil, err
 		}
-		for _, issue := range issuesSearchResult.Issues {
-			allIssues = append(allIssues, issue)
-		}
+		allIssues = append(allIssues, issuesSearchResult.Issues...)
 		if resp.NextPage == 0 {
 			break
 		}

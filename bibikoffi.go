@@ -38,14 +38,20 @@ func main() {
 				options.GitHubToken = os.Getenv("GITHUB_TOKEN")
 			}
 
-			required(options.GitHubToken, "token")
-			required(options.ConfigFilePath, "config-path")
+			err := required(options.GitHubToken, "token")
+			if err != nil {
+				log.Fatal(err)
+			}
+			err = required(options.ConfigFilePath, "config-path")
+			if err != nil {
+				log.Fatal(err)
+			}
 
 			if options.DryRun {
 				log.Print("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
 			}
 
-			err := process(options)
+			err = process(options)
 			if err != nil {
 				log.Fatal(err)
 			}

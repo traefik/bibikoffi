@@ -69,9 +69,5 @@ func closeIssue(ctx context.Context, client *github.Client, owner string, reposi
 		Body: github.String(comment),
 	}
 	_, _, err = client.Issues.CreateComment(ctx, owner, repositoryName, issueNumber, issueComment)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
