@@ -88,7 +88,7 @@ func launch(options *types.Options) error {
 	ctx := context.Background()
 	client := gh.NewGitHubClient(ctx, options.GitHubToken)
 
-	return mjolnir.CloseIssues(client, ctx, config.Owner, config.RepositoryName, config.Rules, options.DryRun, options.Debug)
+	return mjolnir.CloseIssues(ctx, client, config.Owner, config.RepositoryName, config.Rules, options.DryRun, options.Debug)
 }
 
 func required(field string, fieldName string) error {

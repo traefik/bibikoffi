@@ -10,7 +10,7 @@ import (
 )
 
 // CloseIssues close issues who match criterion
-func CloseIssues(client *github.Client, ctx context.Context, owner string, repositoryName string, rules []types.Rule, dryRun bool, debug bool) error {
+func CloseIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, rules []types.Rule, dryRun bool, debug bool) error {
 
 	for _, rule := range rules {
 		if !rule.Disable {

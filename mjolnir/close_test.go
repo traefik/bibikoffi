@@ -22,7 +22,7 @@ func TestIntegrationBibikoffi(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = CloseIssues(client, ctx, config.Owner, config.RepositoryName, config.Rules, true, true)
+	err = CloseIssues(ctx, client, config.Owner, config.RepositoryName, config.Rules, true, true)
 	if err != nil {
 		t.Fatal(err)
 	}
