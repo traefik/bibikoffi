@@ -27,3 +27,5 @@ Use a TOML configuration file. See `sample.toml`.
 ```bash
 bibikoffi -t xxxxxxxxxxxxxxx
 ```
+
+![Myrmica Bibikoffi](http://www.antwiki.org/wiki/images/2/28/Myrmica_bibikoffi_H_casent0900283.jpg)
