@@ -21,6 +21,7 @@ func main() {
 		DryRun:         true,
 		Debug:          false,
 		ConfigFilePath: "./bibikoffi.toml",
+		ServerPort:     80,
 	}
 
 	defaultPointersOptions := &types.Options{}
@@ -120,5 +121,5 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprint(w, "Scheluded.\n")
+	fmt.Fprint(w, "Myrmica Bibikoffi: Scheluded.\n")
 }

@@ -14,6 +14,8 @@ Flags:
     --config-path Configuration file path.           (default "./bibikoffi.toml")
     --debug       Debug mode.                        (default "false")
     --dry-run     Dry run mode.                      (default "true")
+    --port        Server port.                       (default "80")
+    --server      Server mode.                       (default "false")
 -t, --token       GitHub Token. [required]           
 -h, --help        Print Help (this message) and exit
 ```
