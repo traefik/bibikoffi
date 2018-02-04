@@ -5,4 +5,5 @@ cover.out
 bibikoffi.toml
 bibikoffi
 myrmica-bibikoffi
-unsecure/
+unsecured/
+dist/

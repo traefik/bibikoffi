@@ -10,13 +10,14 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/containous/bibikoffi/internal/gh"
+	"github.com/containous/bibikoffi/meta"
 	"github.com/containous/bibikoffi/mjolnir"
 	"github.com/containous/bibikoffi/types"
 	"github.com/containous/flaeg"
+	"github.com/ogier/pflag"
 )
 
 func main() {
-
 	options := &types.Options{
 		DryRun:         true,
 		Debug:          false,
@@ -28,40 +29,63 @@ func main() {
 	rootCmd := &flaeg.Command{
 		Name:                  "bibikoffi",
 		Description:           `Myrmica Bibikoffi: Closes stale issues.`,
-		Config:                options,
 		DefaultPointersConfig: defaultPointersOptions,
-		Run: func() error {
-			if options.Debug {
-				log.Printf("Run bibikoffi command with config : %+v\n", options)
-			}
-
-			if len(options.GitHubToken) == 0 {
-				options.GitHubToken = os.Getenv("GITHUB_TOKEN")
-			}
-
-			err := required(options.GitHubToken, "token")
-			if err != nil {
-				log.Fatal(err)
-			}
-			err = required(options.ConfigFilePath, "config-path")
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			if options.DryRun {
-				log.Print("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
-			}
-
-			err = process(options)
-			if err != nil {
-				log.Fatal(err)
-			}
-			return nil
-		},
+		Config:                options,
+		Run:                   runCmd(options),
 	}
 
 	flag := flaeg.New(rootCmd, os.Args[1:])
-	flag.Run()
+
+	// version
+	versionOptions := &types.NoOption{}
+	versionCmd := &flaeg.Command{
+		Name:                  "version",
+		Description:           "Display the version.",
+		Config:                versionOptions,
+		DefaultPointersConfig: &types.NoOption{},
+		Run: func() error {
+			meta.DisplayVersion()
+			return nil
+		},
+	}
+	flag.AddCommand(versionCmd)
+
+	// Run command
+	err := flag.Run()
+	if err != nil && err != pflag.ErrHelp {
+		log.Printf("Error: %v\n", err)
+	}
+}
+
+func runCmd(options *types.Options) func() error {
+	return func() error {
+		if options.Debug {
+			log.Printf("Run bibikoffi command with config : %+v\n", options)
+		}
+
+		if len(options.GitHubToken) == 0 {
+			options.GitHubToken = os.Getenv("GITHUB_TOKEN")
+		}
+
+		err := required(options.GitHubToken, "token")
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = required(options.ConfigFilePath, "config-path")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if options.DryRun {
+			log.Print("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
+		}
+
+		err = process(options)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return nil
+	}
 }
 
 func process(options *types.Options) error {
@@ -69,7 +93,6 @@ func process(options *types.Options) error {
 		server := &server{options: options}
 		return server.ListenAndServe()
 	}
-
 	return launch(options)
 }
 

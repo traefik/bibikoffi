@@ -12,7 +12,7 @@ import (
 
 const fixturesDir = "./test-fixtures"
 
-func TestIntegrationBibikoffi(t *testing.T) {
+func TestIntegrationCloseIssues(t *testing.T) {
 	client := github.NewClient(nil)
 	ctx := context.Background()
 

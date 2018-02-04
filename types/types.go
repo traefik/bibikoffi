@@ -26,3 +26,6 @@ type Options struct {
 	ServerMode     bool   `long:"server" description:"Server mode."`
 	ServerPort     int    `long:"port" description:"Server port."`
 }
+
+// NoOption empty struct.
+type NoOption struct{}
