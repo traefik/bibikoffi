@@ -53,7 +53,7 @@ func main() {
 	// Run command
 	err := flag.Run()
 	if err != nil && err != pflag.ErrHelp {
-		log.Printf("Error: %v\n", err)
+		log.Fatalf("Error: %v\n", err)
 	}
 }
 
@@ -69,22 +69,18 @@ func runCmd(options *types.Options) func() error {
 
 		err := required(options.GitHubToken, "token")
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 		err = required(options.ConfigFilePath, "config-path")
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
 		if options.DryRun {
 			log.Print("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
 		}
 
-		err = process(options)
-		if err != nil {
-			log.Fatal(err)
-		}
-		return nil
+		return process(options)
 	}
 }
 
@@ -97,16 +93,14 @@ func process(options *types.Options) error {
 }
 
 func launch(options *types.Options) error {
-
 	config := &types.Configuration{}
-	meta, err := toml.DecodeFile(options.ConfigFilePath, config)
-
+	metadata, err := toml.DecodeFile(options.ConfigFilePath, config)
 	if err != nil {
 		return err
 	}
 
 	if options.Debug {
-		log.Printf("configuration: %+v\n", meta)
+		log.Printf("configuration: %+v\n", metadata)
 	}
 
 	ctx := context.Background()
@@ -117,7 +111,7 @@ func launch(options *types.Options) error {
 
 func required(field string, fieldName string) error {
 	if len(field) == 0 {
-		log.Fatalf("%s is mandatory.", fieldName)
+		return fmt.Errorf("%s is mandatory", fieldName)
 	}
 	return nil
 }
@@ -133,7 +127,7 @@ func (s *server) ListenAndServe() error {
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		log.Printf("Invalid http method: %s", r.Method)
-		http.Error(w, "405 Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
 	}
 
