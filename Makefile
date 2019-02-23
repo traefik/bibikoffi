@@ -1,8 +1,13 @@
-.PHONY: all
+.PHONY: clean fmt check test build
 
-GOFILES := $(shell go list -f '{{range $$index, $$element := .GoFiles}}{{$$.Dir}}/{{$$element}}{{"\n"}}{{end}}' ./... | grep -v '/vendor/')
+GOFILES := $(shell git ls-files '*.go' | grep -v '^vendor/')
 
-default: clean checks test build-crossbinary
+TAG_NAME := $(shell git tag -l --contains HEAD)
+SHA := $(shell git rev-parse --short HEAD)
+VERSION := $(if $(TAG_NAME),$(TAG_NAME),$(SHA))
+BUILD_DATE := $(shell date -u '+%Y-%m-%d_%I:%M:%S%p')
+
+default: clean check test build
 
 test: clean
 	go test -v -cover ./...
@@ -11,17 +16,14 @@ dependencies:
 	dep ensure -v
 
 clean:
-	rm -f cover.out
+	rm -rf dist/ cover.out
 
-build:
-	go build
+build: clean
+	@echo Version: $(VERSION) $(BUILD_DATE)
+	go build -v -ldflags '-X "main.version=${VERSION}" -X "main.commit=${SHA}" -X "main.date=${BUILD_DATE}"'
 
-checks: check-fmt
+check:
 	golangci-lint run
 
-check-fmt: SHELL := /bin/bash
-check-fmt:
-	diff -u <(echo -n) <(gofmt -d $(GOFILES))
-
-build-crossbinary:
-	./_script/crossbinary
+fmt:
+	@gofmt -s -l -w $(GOFILES)

@@ -15,5 +15,7 @@ FROM alpine:3.6
 RUN apk --update upgrade \
     && apk --no-cache --no-progress add ca-certificates \
     && rm -rf /var/cache/apk/*
-COPY --from=builder /go/src/github.com/containous/bibikoffi/bibikoffi .
-CMD ["./bibikoffi", "-h"]
+
+COPY --from=builder /go/src/github.com/containous/bibikoffi/bibikoffi /usr/bin/bibikoffi
+
+ENTRYPOINT ["/usr/bin/bibikoffi"]

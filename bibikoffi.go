@@ -10,7 +10,6 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/containous/bibikoffi/internal/gh"
-	"github.com/containous/bibikoffi/meta"
 	"github.com/containous/bibikoffi/mjolnir"
 	"github.com/containous/bibikoffi/types"
 	"github.com/containous/flaeg"
@@ -25,11 +24,10 @@ func main() {
 		ServerPort:     80,
 	}
 
-	defaultPointersOptions := &types.Options{}
 	rootCmd := &flaeg.Command{
 		Name:                  "bibikoffi",
 		Description:           `Myrmica Bibikoffi: Closes stale issues.`,
-		DefaultPointersConfig: defaultPointersOptions,
+		DefaultPointersConfig: &types.Options{},
 		Config:                options,
 		Run:                   runCmd(options),
 	}
@@ -37,14 +35,13 @@ func main() {
 	flag := flaeg.New(rootCmd, os.Args[1:])
 
 	// version
-	versionOptions := &types.NoOption{}
 	versionCmd := &flaeg.Command{
 		Name:                  "version",
 		Description:           "Display the version.",
-		Config:                versionOptions,
+		Config:                &types.NoOption{},
 		DefaultPointersConfig: &types.NoOption{},
 		Run: func() error {
-			meta.DisplayVersion()
+			displayVersion()
 			return nil
 		},
 	}
