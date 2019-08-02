@@ -6,12 +6,11 @@ import (
 
 	"github.com/containous/bibikoffi/internal/search"
 	"github.com/containous/bibikoffi/types"
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v27/github"
 )
 
 // CloseIssues close issues who match criterion
 func CloseIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, rules []types.Rule, dryRun bool, debug bool) error {
-
 	for _, rule := range rules {
 		if !rule.Disable {
 			err := closeIssuesByRule(ctx, client, owner, repositoryName, rule, dryRun, debug)
