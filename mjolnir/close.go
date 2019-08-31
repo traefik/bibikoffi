@@ -6,7 +6,7 @@ import (
 
 	"github.com/containous/bibikoffi/internal/search"
 	"github.com/containous/bibikoffi/types"
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v28/github"
 )
 
 // CloseIssues close issues who match criterion

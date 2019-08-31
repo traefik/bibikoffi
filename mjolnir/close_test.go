@@ -7,7 +7,7 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/containous/bibikoffi/types"
-	"github.com/google/go-github/v27/github"
+	"github.com/google/go-github/v28/github"
 )
 
 const fixturesDir = "./test-fixtures"
