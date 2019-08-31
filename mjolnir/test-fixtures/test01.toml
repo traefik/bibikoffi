@@ -1,32 +1,38 @@
-Owner = "containous"
-RepositoryName = "traefik"
+owner = "containous"
+repositoryName = "traefik"
 
-[[Rules]]
-  IncludedLabels = ["kind/question"]
-  ExcludedLabels = []
-  Message = """\
+[[rules]]
+  includedLabels = ["kind/question"]
+  excludedLabels = []
+  message = """\
 I'll close the issue due to inactivity but feel free to re-open if needed.\
   """
-  DaysSinceCreation = 90
-  DaysSinceUpdate = 90
+  daysSinceCreation = 90
+  daysSinceUpdate = 90
 
-[[Rules]]
-  IncludedLabels = ["kind/enhancement", "priority/P3"]
-  ExcludedLabels = []
-  Message = """\
+[[rules]]
+  includedLabels = ["kind/enhancement", "priority/P3"]
+  excludedLabels = []
+  message = """\
 I'll close the issue due to inactivity but feel free to re-open if needed.\
   """
-  DaysSinceCreation = 360
-  DaysSinceUpdate = 180
+  daysSinceCreation = 360
+  daysSinceUpdate = 180
 
-[[Rules]]
-  Disable = true
-  IncludedLabels = ["area/cluster"]
-  ExcludedLabels = []
-  Message = """\
+[[rules]]
+  disable = true
+  includedLabels = ["area/cluster"]
+  excludedLabels = []
+  message = """\
 I'll close the issue because we release a new cluster mode.
 
 Please try the new release.\
   """
-  DaysSinceCreation = 1
-  DaysSinceUpdate = 1
+  daysSinceCreation = 1
+  daysSinceUpdate = 1
+
+[[locks]]
+  disable = false
+  label = "status/5-frozen-due-to-age"
+  excludedLabels = ["status/5-frozen-due-to-age"]
+  daysSinceUpdate = 900

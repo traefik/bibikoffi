@@ -17,9 +17,8 @@ func (a byUpdated) Less(i, j int) bool {
 	return a[i].GetUpdatedAt().Before(a[j].GetUpdatedAt())
 }
 
-// FindStaleIssues find stale issues.
-func FindStaleIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, parameters ...Parameter) ([]github.Issue, error) {
-
+// FindIssues find issues.
+func FindIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, parameters ...Parameter) ([]github.Issue, error) {
 	var filter string
 	for _, param := range parameters {
 		if param != nil {
@@ -27,13 +26,13 @@ func FindStaleIssues(ctx context.Context, client *github.Client, owner string, r
 		}
 	}
 
-	query := fmt.Sprintf("repo:%s/%s type:issue state:open %s", owner, repositoryName, filter)
+	query := fmt.Sprintf("repo:%s/%s type:issue %s", owner, repositoryName, filter)
 	log.Println(query)
 
 	options := &github.SearchOptions{
 		Sort:        "updated",
 		Order:       "desc",
-		ListOptions: github.ListOptions{PerPage: 25},
+		ListOptions: github.ListOptions{PerPage: 100},
 	}
 
 	issues, err := findIssues(ctx, client, query, options)

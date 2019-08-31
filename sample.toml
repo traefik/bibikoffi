@@ -1,35 +1,47 @@
-Owner = "login"
-RepositoryName = "arepository"
+owner = "login"
+repositoryName = "arepository"
 
-[[Rules]]
+# "rules" allow to close issues
+[[rules]]
   # search issues with those labels (AND)
-  IncludedLabels = ["label01", "label02"]
+  includedLabels = ["label01", "label02"]
   # exclude issues with those labels (AND)
-  ExcludedLabels = ["label03"]
-  Message = """\
+  excludedLabels = ["label03"]
+  message = """\
 I'll close the issue due to inactivity but feel free to re-open if needed.
   """
   # number of days since the issue creation
-  DaysSinceCreation = 360
+  daysSinceCreation = 360
   # number of days since the last issue update
-  DaysSinceUpdate = 180
+  daysSinceUpdate = 180
 
-[[Rules]]
-  IncludedLabels = ["label04"]
-  ExcludedLabels = []
-  Message = """\
+[[rules]]
+  includedLabels = ["label04"]
+  excludedLabels = []
+  message = """\
 I'll close the issue due to inactivity but feel free to re-open if needed.
   """
-  DaysSinceCreation = 90
-  DaysSinceUpdate = 90
+  daysSinceCreation = 90
+  daysSinceUpdate = 90
 
-[[Rules]]
+[[rules]]
   # Disable a rule
-  Disable = true
-  IncludedLabels = ["label05"]
-  ExcludedLabels = []
-  Message = """\
+  disable = true
+  includedLabels = ["label05"]
+  excludedLabels = []
+  message = """\
 I'll close the issue due to inactivity but feel free to re-open if needed.
   """
-  DaysSinceCreation = 90
-  DaysSinceUpdate = 90
+  daysSinceCreation = 90
+  daysSinceUpdate = 90
+
+# "locks" allow to lock issues
+[[locks]]
+  # number of days since the last issue update
+  daysSinceUpdate = 90
+  # exclude issues with those labels (AND)
+  excludedLabels = ["label8"]
+  # label to add on the issue (can be empty)
+  label = "label7"
+  # Disable a rule
+  disable = false

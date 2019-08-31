@@ -24,11 +24,13 @@ func CloseIssues(ctx context.Context, client *github.Client, owner string, repos
 }
 
 func closeIssuesByRule(ctx context.Context, client *github.Client, owner string, repositoryName string, rule types.Rule, dryRun bool, debug bool) error {
-	staleIssues, err := search.FindStaleIssues(ctx, client, owner, repositoryName,
+	staleIssues, err := search.FindIssues(ctx, client, owner, repositoryName,
+		search.State("open"),
 		search.Cond(len(rule.IncludedLabels) != 0, search.WithLabels(rule.IncludedLabels...)),
 		search.Cond(len(rule.ExcludedLabels) != 0, search.WithExcludedLabels(rule.ExcludedLabels...)),
 		search.CreatedBefore(rule.DaysSinceCreation),
-		search.UpdatedBefore(rule.DaysSinceUpdate))
+		search.UpdatedBefore(rule.DaysSinceUpdate),
+	)
 	if err != nil {
 		return err
 	}

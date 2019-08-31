@@ -103,7 +103,12 @@ func launch(options *types.Options) error {
 	ctx := context.Background()
 	client := gh.NewGitHubClient(ctx, options.GitHubToken)
 
-	return mjolnir.CloseIssues(ctx, client, config.Owner, config.RepositoryName, config.Rules, options.DryRun, options.Debug)
+	err = mjolnir.CloseIssues(ctx, client, config.Owner, config.RepositoryName, config.Rules, options.DryRun, options.Debug)
+	if err != nil {
+		return err
+	}
+
+	return mjolnir.LockIssues(ctx, client, config.Owner, config.RepositoryName, config.Locks, options.DryRun, options.Debug)
 }
 
 func required(field string, fieldName string) error {

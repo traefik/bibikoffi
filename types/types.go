@@ -2,19 +2,28 @@ package types
 
 // Configuration global configuration
 type Configuration struct {
-	Owner          string
-	RepositoryName string
-	Rules          []Rule
+	Owner          string   `toml:"owner,omitempty"`
+	RepositoryName string   `toml:"repositoryName,omitempty"`
+	Rules          []Rule   `toml:"rules,omitempty"`
+	Locks          []Frozen `toml:"locks,omitempty"`
+}
+
+// Frozen to lock issues
+type Frozen struct {
+	Label           string   `toml:"label,omitempty"`
+	ExcludedLabels  []string `toml:"excludedLabels,omitempty"`
+	DaysSinceUpdate int      `toml:"daysSinceUpdate,omitempty"`
+	Disable         bool     `toml:"disable,omitempty"`
 }
 
 // Rule to closes issues
 type Rule struct {
-	IncludedLabels    []string
-	ExcludedLabels    []string
-	Message           string
-	DaysSinceCreation int
-	DaysSinceUpdate   int
-	Disable           bool
+	IncludedLabels    []string `toml:"includedLabels,omitempty"`
+	ExcludedLabels    []string `toml:"excludedLabels,omitempty"`
+	Message           string   `toml:"message,omitempty"`
+	DaysSinceCreation int      `toml:"daysSinceCreation,omitempty"`
+	DaysSinceUpdate   int      `toml:"daysSinceUpdate,omitempty"`
+	Disable           bool     `toml:"disable,omitempty"`
 }
 
 // Options CLI options

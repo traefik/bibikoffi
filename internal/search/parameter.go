@@ -97,6 +97,30 @@ func UpdatedAfter(days int) Parameter {
 	}
 }
 
+// State issues state
+func State(v string) Parameter {
+	if v == "" {
+		return NoOp
+	}
+
+	return func() string {
+		return fmt.Sprintf(" state:%s ", v)
+	}
+}
+
+// Lock conversation state.
+func Lock(v bool) Parameter {
+	if v {
+		return func() string {
+			return " is:locked "
+		}
+	}
+
+	return func() string {
+		return " is:unlocked "
+	}
+}
+
 func daysToDate(days int) string {
 	date := time.Now().Add(-time.Duration(days) * 24 * time.Hour)
 	return date.Format(gitHubSearchDateLayout)
