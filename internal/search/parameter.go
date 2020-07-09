@@ -7,15 +7,15 @@ import (
 
 const gitHubSearchDateLayout = "2006-01-02"
 
-// Parameter search parameter
+// Parameter search parameter.
 type Parameter func() string
 
-// NoOp no operation
+// NoOp no operation.
 func NoOp() string {
 	return ""
 }
 
-// Cond apply conditionally some parameters
+// Cond apply conditionally some parameters.
 func Cond(apply bool, parameters ...Parameter) Parameter {
 	if apply {
 		return func() string {
@@ -31,7 +31,7 @@ func Cond(apply bool, parameters ...Parameter) Parameter {
 	return NoOp
 }
 
-// WithLabels add a search filter by labels
+// WithLabels add a search filter by labels.
 func WithLabels(labels ...string) Parameter {
 	var labelsFilter string
 	for _, lbl := range labels {
@@ -42,7 +42,7 @@ func WithLabels(labels ...string) Parameter {
 	}
 }
 
-// WithExcludedLabels add a search filter by unwanted labels
+// WithExcludedLabels add a search filter by unwanted labels.
 func WithExcludedLabels(labels ...string) Parameter {
 	var labelsFilter string
 	for _, lbl := range labels {
@@ -53,7 +53,7 @@ func WithExcludedLabels(labels ...string) Parameter {
 	}
 }
 
-// CreatedBefore issues created before a number of days
+// CreatedBefore issues created before a number of days.
 func CreatedBefore(days int) Parameter {
 	if days == 0 {
 		return NoOp
@@ -64,7 +64,7 @@ func CreatedBefore(days int) Parameter {
 	}
 }
 
-// CreatedAfter issues created after a number of days
+// CreatedAfter issues created after a number of days.
 func CreatedAfter(days int) Parameter {
 	if days == 0 {
 		return NoOp
@@ -75,7 +75,7 @@ func CreatedAfter(days int) Parameter {
 	}
 }
 
-// UpdatedBefore issues updated before a number of days
+// UpdatedBefore issues updated before a number of days.
 func UpdatedBefore(days int) Parameter {
 	if days == 0 {
 		return NoOp
@@ -86,7 +86,7 @@ func UpdatedBefore(days int) Parameter {
 	}
 }
 
-// UpdatedAfter issues updated after a number of days
+// UpdatedAfter issues updated after a number of days.
 func UpdatedAfter(days int) Parameter {
 	if days == 0 {
 		return NoOp
@@ -97,7 +97,7 @@ func UpdatedAfter(days int) Parameter {
 	}
 }
 
-// State issues state
+// State issues state.
 func State(v string) Parameter {
 	if v == "" {
 		return NoOp

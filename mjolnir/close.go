@@ -9,8 +9,8 @@ import (
 	"github.com/google/go-github/v28/github"
 )
 
-// CloseIssues close issues who match criterion
-func CloseIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, rules []types.Rule, dryRun bool, debug bool) error {
+// CloseIssues close issues who match criterion.
+func CloseIssues(ctx context.Context, client *github.Client, owner, repositoryName string, rules []types.Rule, dryRun, debug bool) error {
 	for _, rule := range rules {
 		if !rule.Disable {
 			err := closeIssuesByRule(ctx, client, owner, repositoryName, rule, dryRun, debug)
@@ -23,7 +23,7 @@ func CloseIssues(ctx context.Context, client *github.Client, owner string, repos
 	return nil
 }
 
-func closeIssuesByRule(ctx context.Context, client *github.Client, owner string, repositoryName string, rule types.Rule, dryRun bool, debug bool) error {
+func closeIssuesByRule(ctx context.Context, client *github.Client, owner, repositoryName string, rule types.Rule, dryRun, debug bool) error {
 	staleIssues, err := search.FindIssues(ctx, client, owner, repositoryName,
 		search.State("open"),
 		search.Cond(len(rule.IncludedLabels) != 0, search.WithLabels(rule.IncludedLabels...)),
@@ -57,7 +57,7 @@ func closeIssuesByRule(ctx context.Context, client *github.Client, owner string,
 	return nil
 }
 
-func closeIssue(ctx context.Context, client *github.Client, owner string, repositoryName string, issueNumber int, comment string) error {
+func closeIssue(ctx context.Context, client *github.Client, owner, repositoryName string, issueNumber int, comment string) error {
 	issueRequest := &github.IssueRequest{
 		State: github.String("closed"),
 	}

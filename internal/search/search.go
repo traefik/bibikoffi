@@ -18,7 +18,7 @@ func (a byUpdated) Less(i, j int) bool {
 }
 
 // FindIssues find issues.
-func FindIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, parameters ...Parameter) ([]github.Issue, error) {
+func FindIssues(ctx context.Context, client *github.Client, owner, repositoryName string, parameters ...Parameter) ([]github.Issue, error) {
 	var filter string
 	for _, param := range parameters {
 		if param != nil {

@@ -111,7 +111,7 @@ func launch(options *types.Options) error {
 	return mjolnir.LockIssues(ctx, client, config.Owner, config.RepositoryName, config.Locks, options.DryRun, options.Debug)
 }
 
-func required(field string, fieldName string) error {
+func required(field, fieldName string) error {
 	if len(field) == 0 {
 		return fmt.Errorf("%s is mandatory", fieldName)
 	}

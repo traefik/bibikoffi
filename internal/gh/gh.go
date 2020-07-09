@@ -7,7 +7,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// NewGitHubClient create a new GitHub client
+// NewGitHubClient create a new GitHub client.
 func NewGitHubClient(ctx context.Context, token string) *github.Client {
 	if len(token) == 0 {
 		return github.NewClient(nil)

@@ -31,14 +31,19 @@
     "dupl",
     "prealloc",
     "scopelint",
-    "typecheck", # v1.17.1 and Go1.13 => bug
+    "testpackage",
+    "wsl",
+    "gomnd",
+    "goerr113",
   ]
 
 [issues]
   exclude-use-default = false
   max-per-linter = 0
   max-same-issues = 0
-  exclude = []
+  exclude = [
+    "ST1000: at least one file in a package should have a package comment"
+  ]
   [[issues.exclude-rules]]
     path = "version.go"
     text = "`(version|date|commit)` is a global variable"

@@ -1,6 +1,6 @@
 package types
 
-// Configuration global configuration
+// Configuration global configuration.
 type Configuration struct {
 	Owner          string   `toml:"owner,omitempty"`
 	RepositoryName string   `toml:"repositoryName,omitempty"`
@@ -8,7 +8,7 @@ type Configuration struct {
 	Locks          []Frozen `toml:"locks,omitempty"`
 }
 
-// Frozen to lock issues
+// Frozen to lock issues.
 type Frozen struct {
 	Label           string   `toml:"label,omitempty"`
 	ExcludedLabels  []string `toml:"excludedLabels,omitempty"`
@@ -16,7 +16,7 @@ type Frozen struct {
 	Disable         bool     `toml:"disable,omitempty"`
 }
 
-// Rule to closes issues
+// Rule to closes issues.
 type Rule struct {
 	IncludedLabels    []string `toml:"includedLabels,omitempty"`
 	ExcludedLabels    []string `toml:"excludedLabels,omitempty"`
@@ -26,7 +26,7 @@ type Rule struct {
 	Disable           bool     `toml:"disable,omitempty"`
 }
 
-// Options CLI options
+// Options CLI options.
 type Options struct {
 	GitHubToken    string `long:"token" short:"t" description:"GitHub Token. [required]"`
 	DryRun         bool   `long:"dry-run" description:"Dry run mode."`

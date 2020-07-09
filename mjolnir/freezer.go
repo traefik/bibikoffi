@@ -9,8 +9,8 @@ import (
 	"github.com/google/go-github/v28/github"
 )
 
-// LockIssues lock issues who match criterion
-func LockIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, ices []types.Frozen, dryRun bool, debug bool) error {
+// LockIssues lock issues who match criterion.
+func LockIssues(ctx context.Context, client *github.Client, owner, repositoryName string, ices []types.Frozen, dryRun, debug bool) error {
 	for _, ice := range ices {
 		if !ice.Disable {
 			err := lockIssues(ctx, client, owner, repositoryName, ice, dryRun, debug)
@@ -23,7 +23,7 @@ func LockIssues(ctx context.Context, client *github.Client, owner string, reposi
 	return nil
 }
 
-func lockIssues(ctx context.Context, client *github.Client, owner string, repositoryName string, ice types.Frozen, dryRun bool, debug bool) error {
+func lockIssues(ctx context.Context, client *github.Client, owner, repositoryName string, ice types.Frozen, dryRun, debug bool) error {
 	oldIssues, err := search.FindIssues(ctx, client, owner, repositoryName,
 		search.State("closed"),
 		search.Lock(false),
@@ -57,7 +57,7 @@ func lockIssues(ctx context.Context, client *github.Client, owner string, reposi
 	return nil
 }
 
-func lockIssue(ctx context.Context, client *github.Client, owner string, repositoryName string, issueNumber int, label string) error {
+func lockIssue(ctx context.Context, client *github.Client, owner, repositoryName string, issueNumber int, label string) error {
 	_, err := client.Issues.Lock(ctx, owner, repositoryName, issueNumber, nil)
 	if err != nil {
 		return err
