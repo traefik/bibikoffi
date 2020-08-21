@@ -8,7 +8,7 @@ notifications:
 jobs:
   fast_finish: true
   include:
-    - go: 1.13.x
+    - go: 1.15.x
       env: STABLE=true
     - go: 1.x
     - go: tip
