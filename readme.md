@@ -1,8 +1,8 @@
 # Myrmica Bibikoffi - Closes stale issues
 
-[![GitHub release](https://img.shields.io/github/release/containous/bibikoffi.svg)](https://github.com/containous/bibikoffi/releases/latest)
-[![Build Status](https://travis-ci.com/containous/bibikoffi.svg?branch=master)](https://travis-ci.com/containous/bibikoffi)
-[![Docker Build Status](https://img.shields.io/docker/build/containous/bibikoffi.svg)](https://hub.docker.com/r/containous/bibikoffi/builds/)
+[![GitHub release](https://img.shields.io/github/release/traefik/bibikoffi.svg)](https://github.com/traefik/bibikoffi/releases/latest)
+[![Build Status](https://travis-ci.com/traefik/bibikoffi.svg?branch=master)](https://travis-ci.com/traefik/bibikoffi)
+[![Docker Build Status](https://img.shields.io/docker/build/traefik/bibikoffi.svg)](https://hub.docker.com/r/traefik/bibikoffi/builds/)
 
 ## Description
 

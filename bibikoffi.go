@@ -9,11 +9,11 @@ import (
 	"strconv"
 
 	"github.com/BurntSushi/toml"
-	"github.com/containous/bibikoffi/internal/gh"
-	"github.com/containous/bibikoffi/mjolnir"
-	"github.com/containous/bibikoffi/types"
 	"github.com/containous/flaeg"
 	"github.com/ogier/pflag"
+	"github.com/traefik/bibikoffi/internal/gh"
+	"github.com/traefik/bibikoffi/mjolnir"
+	"github.com/traefik/bibikoffi/types"
 )
 
 func main() {

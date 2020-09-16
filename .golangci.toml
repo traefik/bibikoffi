@@ -35,6 +35,7 @@
     "wsl",
     "gomnd",
     "goerr113",
+    "nlreturn",
   ]
 
 [issues]
