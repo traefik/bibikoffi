@@ -4,8 +4,8 @@ repositoryName = "traefik"
 [[rules]]
   includedLabels = ["kind/question"]
   excludedLabels = []
-  message = """\
-I'll close the issue due to inactivity but feel free to re-open if needed.\
+  message = """
+I'll close the issue due to inactivity but feel free to re-open if needed.
   """
   daysSinceCreation = 90
   daysSinceUpdate = 90
@@ -13,8 +13,8 @@ I'll close the issue due to inactivity but feel free to re-open if needed.\
 [[rules]]
   includedLabels = ["kind/enhancement", "priority/P3"]
   excludedLabels = []
-  message = """\
-I'll close the issue due to inactivity but feel free to re-open if needed.\
+  message = """
+I'll close the issue due to inactivity but feel free to re-open if needed.
   """
   daysSinceCreation = 360
   daysSinceUpdate = 180
@@ -23,10 +23,10 @@ I'll close the issue due to inactivity but feel free to re-open if needed.\
   disable = true
   includedLabels = ["area/cluster"]
   excludedLabels = []
-  message = """\
+  message = """
 I'll close the issue because we release a new cluster mode.
 
-Please try the new release.\
+Please try the new release.
   """
   daysSinceCreation = 1
   daysSinceUpdate = 1
