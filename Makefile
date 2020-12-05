@@ -1,8 +1,6 @@
-.PHONY: clean fmt check test build
+.PHONY: clean check test build
 
 export GO111MODULE=on
-
-GOFILES := $(shell git ls-files '*.go' | grep -v '^vendor/')
 
 TAG_NAME := $(shell git tag -l --contains HEAD)
 SHA := $(shell git rev-parse --short HEAD)
@@ -23,6 +21,3 @@ build: clean
 
 check:
 	golangci-lint run
-
-fmt:
-	@gofmt -s -l -w $(GOFILES)
