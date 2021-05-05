@@ -2,18 +2,18 @@ package mjolnir
 
 import (
 	"context"
-	"log"
 
 	"github.com/google/go-github/v28/github"
+	"github.com/rs/zerolog/log"
 	"github.com/traefik/bibikoffi/internal/search"
 	"github.com/traefik/bibikoffi/types"
 )
 
 // LockIssues lock issues who match criterion.
-func LockIssues(ctx context.Context, client *github.Client, owner, repositoryName string, ices []types.Frozen, dryRun, debug bool) error {
+func LockIssues(ctx context.Context, client *github.Client, owner, repositoryName string, ices []types.Frozen, dryRun bool) error {
 	for _, ice := range ices {
 		if !ice.Disable {
-			err := lockIssues(ctx, client, owner, repositoryName, ice, dryRun, debug)
+			err := lockIssues(ctx, client, owner, repositoryName, ice, dryRun)
 			if err != nil {
 				return err
 			}
@@ -23,7 +23,7 @@ func LockIssues(ctx context.Context, client *github.Client, owner, repositoryNam
 	return nil
 }
 
-func lockIssues(ctx context.Context, client *github.Client, owner, repositoryName string, ice types.Frozen, dryRun, debug bool) error {
+func lockIssues(ctx context.Context, client *github.Client, owner, repositoryName string, ice types.Frozen, dryRun bool) error {
 	oldIssues, err := search.FindIssues(ctx, client, owner, repositoryName,
 		search.State("closed"),
 		search.Lock(false),
@@ -34,22 +34,22 @@ func lockIssues(ctx context.Context, client *github.Client, owner, repositoryNam
 		return err
 	}
 
-	log.Printf("Unlocked: %d\n", len(oldIssues))
+	log.Info().Msgf("Unlocked: %d", len(oldIssues))
 
 	for i, issue := range oldIssues {
-		log.Printf("%d Lock issue #%d: created %v, updated %v", i+1, issue.GetNumber(), issue.GetCreatedAt(), issue.GetUpdatedAt())
+		logger := log.With().Int("issue", issue.GetNumber()).Logger()
+		logger.Info().Msgf("%d Lock issue #%d: created %v, updated %v", i+1, issue.GetNumber(), issue.GetCreatedAt(), issue.GetUpdatedAt())
 
-		if debug {
-			log.Println(issue.GetTitle(), issue.GetHTMLURL())
-		}
+		logger.Debug().Msgf("%s %s", issue.GetTitle(), issue.GetHTMLURL())
 
 		if dryRun {
-			log.Println("lock ", ice.Label)
+			logger.Debug().Msgf("lock %s", ice.Label)
 			continue
 		}
 
 		err = lockIssue(ctx, client, owner, repositoryName, issue.GetNumber(), ice.Label)
 		if err != nil {
+			logger.Error().Err(err).Msg("unable to lock issue")
 			return err
 		}
 	}

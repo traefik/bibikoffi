@@ -2,18 +2,18 @@ package mjolnir
 
 import (
 	"context"
-	"log"
 
 	"github.com/google/go-github/v28/github"
+	"github.com/rs/zerolog/log"
 	"github.com/traefik/bibikoffi/internal/search"
 	"github.com/traefik/bibikoffi/types"
 )
 
 // CloseIssues close issues who match criterion.
-func CloseIssues(ctx context.Context, client *github.Client, owner, repositoryName string, rules []types.Rule, dryRun, debug bool) error {
+func CloseIssues(ctx context.Context, client *github.Client, owner, repositoryName string, rules []types.Rule, dryRun bool) error {
 	for _, rule := range rules {
 		if !rule.Disable {
-			err := closeIssuesByRule(ctx, client, owner, repositoryName, rule, dryRun, debug)
+			err := closeIssuesByRule(ctx, client, owner, repositoryName, rule, dryRun)
 			if err != nil {
 				return err
 			}
@@ -23,7 +23,7 @@ func CloseIssues(ctx context.Context, client *github.Client, owner, repositoryNa
 	return nil
 }
 
-func closeIssuesByRule(ctx context.Context, client *github.Client, owner, repositoryName string, rule types.Rule, dryRun, debug bool) error {
+func closeIssuesByRule(ctx context.Context, client *github.Client, owner, repositoryName string, rule types.Rule, dryRun bool) error {
 	staleIssues, err := search.FindIssues(ctx, client, owner, repositoryName,
 		search.State("open"),
 		search.Cond(len(rule.IncludedLabels) != 0, search.WithLabels(rule.IncludedLabels...)),
@@ -32,23 +32,24 @@ func closeIssuesByRule(ctx context.Context, client *github.Client, owner, reposi
 		search.UpdatedBefore(rule.DaysSinceUpdate),
 	)
 	if err != nil {
+		log.Error().Err(err).Msg("unable to find issue")
 		return err
 	}
 
-	log.Printf("%v: %d\n", rule.IncludedLabels, len(staleIssues))
+	log.Info().Msgf("%v: %d", rule.IncludedLabels, len(staleIssues))
 
 	for _, issue := range staleIssues {
-		log.Printf("Close issue #%d: created %v, updated %v", issue.GetNumber(), issue.GetCreatedAt(), issue.GetUpdatedAt())
+		logger := log.With().Int("issue", issue.GetNumber()).Logger()
+		logger.Info().Msgf("Close issue #%d: created %v, updated %v", issue.GetNumber(), issue.GetCreatedAt(), issue.GetUpdatedAt())
 
-		if debug {
-			log.Println(issue.GetTitle())
-		}
+		logger.Debug().Msg(issue.GetTitle())
 
 		if dryRun {
-			log.Println(rule.Message)
+			logger.Info().Msg(rule.Message)
 		} else {
 			err = closeIssue(ctx, client, owner, repositoryName, issue.GetNumber(), rule.Message)
 			if err != nil {
+				logger.Error().Err(err).Msg("unable to close issue")
 				return err
 			}
 		}

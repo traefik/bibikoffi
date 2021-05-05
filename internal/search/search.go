@@ -3,10 +3,10 @@ package search
 import (
 	"context"
 	"fmt"
-	"log"
 	"sort"
 
 	"github.com/google/go-github/v28/github"
+	"github.com/rs/zerolog/log"
 )
 
 type byUpdated []github.Issue
@@ -27,7 +27,7 @@ func FindIssues(ctx context.Context, client *github.Client, owner, repositoryNam
 	}
 
 	query := fmt.Sprintf("repo:%s/%s type:issue %s", owner, repositoryName, filter)
-	log.Println(query)
+	log.Debug().Msg(query)
 
 	options := &github.SearchOptions{
 		Sort:        "updated",
@@ -37,6 +37,7 @@ func FindIssues(ctx context.Context, client *github.Client, owner, repositoryNam
 
 	issues, err := findIssues(ctx, client, query, options)
 	if err != nil {
+		log.Error().Err(err).Str("query", query).Msg("unable to find issue")
 		return nil, err
 	}
 	sort.Sort(byUpdated(issues))

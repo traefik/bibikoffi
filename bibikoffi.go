@@ -4,14 +4,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 	"github.com/containous/flaeg"
 	"github.com/ogier/pflag"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/traefik/bibikoffi/internal/gh"
 	"github.com/traefik/bibikoffi/mjolnir"
 	"github.com/traefik/bibikoffi/types"
@@ -20,7 +22,6 @@ import (
 func main() {
 	options := &types.Options{
 		DryRun:         true,
-		Debug:          false,
 		ConfigFilePath: "./bibikoffi.toml",
 		ServerPort:     80,
 	}
@@ -51,15 +52,15 @@ func main() {
 	// Run command
 	err := flag.Run()
 	if err != nil && !errors.Is(err, pflag.ErrHelp) {
-		log.Fatalf("Error: %v\n", err)
+		log.Fatal().Err(err).Msg("unable to start bibikoffi")
 	}
 }
 
 func runCmd(options *types.Options) func() error {
 	return func() error {
-		if options.Debug {
-			log.Printf("Run bibikoffi command with config : %+v\n", options)
-		}
+		setupLogger(options.DryRun, options.LogLevel)
+
+		log.Debug().Msgf("Run bibikoffi command with config : %+v", options)
 
 		if len(options.GitHubToken) == 0 {
 			options.GitHubToken = os.Getenv("GITHUB_TOKEN")
@@ -75,7 +76,7 @@ func runCmd(options *types.Options) func() error {
 		}
 
 		if options.DryRun {
-			log.Print("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
+			log.Debug().Msg("IMPORTANT: you are using the dry-run mode. Use `--dry-run=false` to disable this mode.")
 		}
 
 		return process(options)
@@ -97,19 +98,17 @@ func launch(options *types.Options) error {
 		return err
 	}
 
-	if options.Debug {
-		log.Printf("configuration: %+v\n", metadata)
-	}
+	log.Debug().Msgf("configuration: %+v", metadata)
 
 	ctx := context.Background()
 	client := gh.NewGitHubClient(ctx, options.GitHubToken)
 
-	err = mjolnir.CloseIssues(ctx, client, config.Owner, config.RepositoryName, config.Rules, options.DryRun, options.Debug)
+	err = mjolnir.CloseIssues(ctx, client, config.Owner, config.RepositoryName, config.Rules, options.DryRun)
 	if err != nil {
 		return err
 	}
 
-	return mjolnir.LockIssues(ctx, client, config.Owner, config.RepositoryName, config.Locks, options.DryRun, options.Debug)
+	return mjolnir.LockIssues(ctx, client, config.Owner, config.RepositoryName, config.Locks, options.DryRun)
 }
 
 func required(field, fieldName string) error {
@@ -129,17 +128,37 @@ func (s *server) ListenAndServe() error {
 
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		log.Printf("Invalid http method: %s", r.Method)
+		log.Error().Msgf("Invalid http method: %s", r.Method)
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 		return
 	}
 
 	err := launch(s.options)
 	if err != nil {
-		log.Printf("Report error: %v", err)
+		log.Error().Err(err).Msg("Report error")
 		http.Error(w, "Report error.", http.StatusInternalServerError)
 		return
 	}
 
 	fmt.Fprint(w, "Myrmica Bibikoffi: Scheluded.\n")
+}
+
+// setupLogger is configuring the logger.
+func setupLogger(dryRun bool, level string) {
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+
+	log.Logger = zerolog.New(os.Stderr).With().Caller().Logger()
+
+	logLevel := zerolog.DebugLevel
+	if !dryRun {
+		var err error
+		logLevel, err = zerolog.ParseLevel(strings.ToLower(level))
+		if err != nil {
+			logLevel = zerolog.InfoLevel
+		}
+	}
+
+	zerolog.SetGlobalLevel(logLevel)
+
+	log.Trace().Msgf("Log level set to %s.", logLevel)
 }

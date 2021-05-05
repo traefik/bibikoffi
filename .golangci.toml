@@ -1,7 +1,7 @@
 [run]
   deadline = "2m"
   skip-files = [
-    "^unsecured/",
+    "^unsecured/"
   ]
 
 [linters-settings]
@@ -26,14 +26,19 @@
   enable-all = true
   disable = [
     "maligned",
+    "interfacer",
+    "scopelint",
+    "cyclop",
     "lll",
     "gas",
     "dupl",
     "prealloc",
     "scopelint",
+    "gomnd",
     "wsl",
     "nlreturn",
-    "gomnd",
+    "gocognit",
+    "nestif",
     "testpackage",
     "paralleltest",
     "tparallel",
@@ -42,16 +47,17 @@
     "exhaustive",
     "exhaustivestruct",
     "noctx",
+    "ifshort",
     "makezero",
+    "forbidigo",
+    "durationcheck",
   ]
 
 [issues]
   exclude-use-default = false
   max-per-linter = 0
   max-same-issues = 0
-  exclude = [
-    "ST1000: at least one file in a package should have a package comment"
-  ]
+  exclude = ["ST1000: at least one file in a package should have a package comment"]
   [[issues.exclude-rules]]
     path = "version.go"
     text = "(version|date|commit) is a global variable"
