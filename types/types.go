@@ -30,7 +30,7 @@ type Rule struct {
 type Options struct {
 	GitHubToken    string `long:"token" short:"t" description:"GitHub Token. [required]"`
 	DryRun         bool   `long:"dry-run" description:"Dry run mode."`
-	Debug          bool   `long:"debug" description:"Debug mode."`
+	LogLevel       string `long:"log-level" description:"Log level."`
 	ConfigFilePath string `long:"config-path" description:"Configuration file path."`
 	ServerMode     bool   `long:"server" description:"Server mode."`
 	ServerPort     int    `long:"port" description:"Server port."`

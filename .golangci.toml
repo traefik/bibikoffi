@@ -26,14 +26,19 @@
   enable-all = true
   disable = [
     "maligned",
+    "interfacer",
+    "scopelint",
+    "cyclop",
     "lll",
     "gas",
     "dupl",
     "prealloc",
     "scopelint",
+    "gomnd",
     "wsl",
     "nlreturn",
-    "gomnd",
+    "gocognit",
+    "nestif",
     "testpackage",
     "paralleltest",
     "tparallel",
@@ -42,7 +47,9 @@
     "exhaustive",
     "exhaustivestruct",
     "noctx",
+    "ifshort",
     "makezero",
+    "forbidigo",
   ]
 
 [issues]
@@ -50,7 +57,7 @@
   max-per-linter = 0
   max-same-issues = 0
   exclude = [
-    "ST1000: at least one file in a package should have a package comment"
+    "ST1000: at least one file in a package should have a package comment",
   ]
   [[issues.exclude-rules]]
     path = "version.go"
@@ -58,4 +65,6 @@
   [[issues.exclude-rules]]
     path = "version.go"
     text = "use of `fmt.Printf` forbidden by pattern"
-
+  [[issues.exclude-rules]]
+    path = "internal/search/parameter.go"
+    text = "Multiplication of durations: `\\-time\\.Duration\\(days\\) \\* 24 \\* time\\.Hour`"
