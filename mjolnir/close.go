@@ -32,7 +32,6 @@ func closeIssuesByRule(ctx context.Context, client *github.Client, owner, reposi
 		search.UpdatedBefore(rule.DaysSinceUpdate),
 	)
 	if err != nil {
-		log.Error().Err(err).Msg("unable to find issue")
 		return err
 	}
 

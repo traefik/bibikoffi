@@ -37,9 +37,9 @@ func FindIssues(ctx context.Context, client *github.Client, owner, repositoryNam
 
 	issues, err := findIssues(ctx, client, query, options)
 	if err != nil {
-		log.Error().Err(err).Str("query", query).Msg("unable to find issue")
-		return nil, err
+		return nil, fmt.Errorf("unable to find issue: %w", err)
 	}
+
 	sort.Sort(byUpdated(issues))
 
 	return issues, nil
