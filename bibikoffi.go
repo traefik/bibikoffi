@@ -140,7 +140,7 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprint(w, "Myrmica Bibikoffi: Scheluded.\n")
+	fmt.Fprint(w, "Myrmica Bibikoffi: Scheduled.\n")
 }
 
 // setupLogger is configuring the logger.
