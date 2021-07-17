@@ -28,6 +28,7 @@
     "maligned",
     "interfacer",
     "scopelint",
+    "golint",
     "cyclop",
     "lll",
     "gas",
