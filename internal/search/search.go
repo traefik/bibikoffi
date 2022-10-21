@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/google/go-github/v28/github"
+	"github.com/google/go-github/v47/github"
 	"github.com/rs/zerolog/log"
 )
 
-type byUpdated []github.Issue
+type byUpdated []*github.Issue
 
 func (a byUpdated) Len() int      { return len(a) }
 func (a byUpdated) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
@@ -18,7 +18,7 @@ func (a byUpdated) Less(i, j int) bool {
 }
 
 // FindIssues find issues.
-func FindIssues(ctx context.Context, client *github.Client, owner, repositoryName string, parameters ...Parameter) ([]github.Issue, error) {
+func FindIssues(ctx context.Context, client *github.Client, owner, repositoryName string, parameters ...Parameter) ([]*github.Issue, error) {
 	var filter string
 	for _, param := range parameters {
 		if param != nil {
@@ -45,8 +45,8 @@ func FindIssues(ctx context.Context, client *github.Client, owner, repositoryNam
 	return issues, nil
 }
 
-func findIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions) ([]github.Issue, error) {
-	var allIssues []github.Issue
+func findIssues(ctx context.Context, client *github.Client, query string, searchOptions *github.SearchOptions) ([]*github.Issue, error) {
+	var allIssues []*github.Issue
 	for {
 		issuesSearchResult, resp, err := client.Search.Issues(ctx, query, searchOptions)
 		if err != nil {
