@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/google/go-github/v47/github"
+	"github.com/google/go-github/v50/github"
 	"github.com/rs/zerolog/log"
 )
 
@@ -14,7 +14,7 @@ type byUpdated []*github.Issue
 func (a byUpdated) Len() int      { return len(a) }
 func (a byUpdated) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 func (a byUpdated) Less(i, j int) bool {
-	return a[i].GetUpdatedAt().Before(a[j].GetUpdatedAt())
+	return a[i].GetUpdatedAt().Before(a[j].GetUpdatedAt().Time)
 }
 
 // FindIssues find issues.

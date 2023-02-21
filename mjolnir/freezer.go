@@ -3,7 +3,7 @@ package mjolnir
 import (
 	"context"
 
-	"github.com/google/go-github/v47/github"
+	"github.com/google/go-github/v50/github"
 	"github.com/rs/zerolog/log"
 	"github.com/traefik/bibikoffi/internal/search"
 	"github.com/traefik/bibikoffi/types"
