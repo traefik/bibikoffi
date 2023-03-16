@@ -53,6 +53,19 @@ docker_manifests:
       - 'traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-amd64'
       - 'traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-arm64'
 
+  - name_template: 'ghcr.io/traefik/bibikoffi:{{ .Tag }}'
+    image_templates:
+      - 'ghcr.io/traefik/bibikoffi:{{ .Tag }}-amd64'
+      - 'ghcr.io/traefik/bibikoffi:{{ .Tag }}-arm64'
+  - name_template: 'ghcr.io/traefik/bibikoffi:latest'
+    image_templates:
+      - 'ghcr.io/traefik/bibikoffi:{{ .Tag }}-amd64'
+      - 'ghcr.io/traefik/bibikoffi:{{ .Tag }}-arm64'
+  - name_template: 'ghcr.io/traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}'
+    image_templates:
+      - 'ghcr.io/traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-amd64'
+      - 'ghcr.io/traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-arm64'
+
 dockers:
   - use: buildx
     goos: linux
@@ -62,6 +75,9 @@ dockers:
       - 'traefik/bibikoffi:latest-amd64'
       - 'traefik/bibikoffi:{{ .Tag }}-amd64'
       - 'traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-amd64'
+      - 'ghcr.io/traefik/bibikoffi:latest-amd64'
+      - 'ghcr.io/traefik/bibikoffi:{{ .Tag }}-amd64'
+      - 'ghcr.io/traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-amd64'
     build_flag_templates:
       - '--pull'
       # https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
@@ -83,6 +99,9 @@ dockers:
       - 'traefik/bibikoffi:latest-arm64'
       - 'traefik/bibikoffi:{{ .Tag }}-arm64'
       - 'traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-arm64'
+      - 'ghcr.io/traefik/bibikoffi:latest-arm64'
+      - 'ghcr.io/traefik/bibikoffi:{{ .Tag }}-arm64'
+      - 'ghcr.io/traefik/bibikoffi:v{{ .Major }}.{{ .Minor }}-arm64'
     build_flag_templates:
       - '--pull'
       # https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
